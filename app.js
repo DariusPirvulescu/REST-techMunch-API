@@ -26,40 +26,45 @@ const articleSchema = new mongoose.Schema({
 
 const Article = new mongoose.model("Article", articleSchema)
 
-app.get("/", (req, res) => {
-  Article.find({}, (err, foundArticles) => {
-    if (!err) { 
-      res.send(foundArticles) 
-    } else {
-      res.send(err)
-    }
+app.route("/")
+  .get((req, res) => {
+    Article.find({}, (err, foundArticles) => {
+      if (!err) { 
+        res.send(foundArticles) 
+      } else {
+        res.send(err)
+      }
+    })
   })
-})
+  .post((req, res) => {
+    const newArticle = new Article ({
+      title: req.body.title,
+      content: req.body.content
+    })
 
-app.post("/", (req, res) => {
-  const newArticle = new Article ({
-    title: req.body.title,
-    content: req.body.content
+    newArticle.save((err) => {
+      if (!err) { 
+        res.send("status 200 000 000, article added, so awesome!") 
+      } else {
+        res.send(err)
+      }
+    })
+  })
+  .delete((req, res) => {
+    Article.deleteMany((err) => {
+      if (!err) {
+        res.send("You've just deleted all the articles")
+      } else {
+        res.send(err)
+      }
+    })
   })
 
-  newArticle.save((err) => {
-    if (!err) { 
-      res.send("status 200 000 000, so awesome!") 
-    } else {
-      res.send(err)
-    }
-  })
-})
+// app.get("/", )
 
-app.delete("/", (req, res) => {
-  Article.deleteMany((err) => {
-    if (!err) {
-      res.send("You've just deleted all the articles")
-    } else {
-      res.send(err)
-    }
-  })
-})
+// app.post("/", )
+
+// app.delete("/", )
 
 app.listen(3000, () => {
   console.log("Server started: port 3000");
