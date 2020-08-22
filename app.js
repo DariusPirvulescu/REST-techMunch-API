@@ -49,7 +49,16 @@ app.post("/", (req, res) => {
       res.send(err)
     }
   })
+})
 
+app.delete("/", (req, res) => {
+  Article.deleteMany((err) => {
+    if (!err) {
+      res.send("You've just deleted all the articles")
+    } else {
+      res.send(err)
+    }
+  })
 })
 
 app.listen(3000, () => {
