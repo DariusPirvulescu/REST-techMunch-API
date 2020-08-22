@@ -28,11 +28,30 @@ const Article = new mongoose.model("Article", articleSchema)
 
 app.get("/", (req, res) => {
   Article.find({}, (err, foundArticles) => {
-    if (err) { console.log(err) }
-    res.send(foundArticles)
+    if (!err) { 
+      res.send(foundArticles) 
+    } else {
+      res.send(err)
+    }
   })
 })
 
-app.listen(3000, function () {
+app.post("/", (req, res) => {
+  const newArticle = new Article ({
+    title: req.body.title,
+    content: req.body.content
+  })
+
+  newArticle.save((err) => {
+    if (!err) { 
+      res.send("status 200 000 000, so awesome!") 
+    } else {
+      res.send(err)
+    }
+  })
+
+})
+
+app.listen(3000, () => {
   console.log("Server started: port 3000");
 });
