@@ -26,6 +26,7 @@ const articleSchema = new mongoose.Schema({
 
 const Article = new mongoose.model("Article", articleSchema)
 
+// Route for all articles
 app.route("/")
   .get((req, res) => {
     Article.find({}, (err, foundArticles) => {
@@ -60,11 +61,17 @@ app.route("/")
     })
   })
 
-// app.get("/", )
+/// Route for a Specific article
+app.route("/:title")
+  .get((req, res) => {
+    const articleTitle = req.params.title;
+  
+    Article.find({ title: articleTitle }, (err, foundArticle) => {
+      if (err) { res.send(err) }
+      res.send(foundArticle)
+    })
+  })
 
-// app.post("/", )
-
-// app.delete("/", )
 
 app.listen(3000, () => {
   console.log("Server started: port 3000");
