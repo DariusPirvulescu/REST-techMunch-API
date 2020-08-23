@@ -63,7 +63,8 @@ app
   });
 
 /// Route for a Specific article
-app.route("/:title")
+app
+  .route("/:title")
   .get((req, res) => {
     const articleTitle = req.params.title;
 
@@ -76,43 +77,40 @@ app.route("/:title")
   })
   .put((req, res) => {
     Article.updateOne(
-      {title: req.params.title},
-      {title: req.body.title, content: req.body.content},
-      {overwrite: true},
+      { title: req.params.title },
+      { title: req.body.title, content: req.body.content },
+      { overwrite: true },
       (err) => {
         if (!err) {
-          res.send("Success updating article")
-        } else {
-          res.send(err)
-        }
-      }
-    )
-  })
-  .patch((req, res) => {
-    Article.updateOne(
-      {title: req.params.title},
-      {$set: req.body},
-      (err) => {
-        if (!err) {
-          res.send("Success updating article using Patch req")
+          res.send("Success updating article");
         } else {
           res.send(err);
         }
       }
-    )
+    );
   })
-  .delete((req, res) => {
-    Article.deleteOne(
-      {title: req.params.title},
+  .patch((req, res) => {
+    Article.updateOne(
+      { title: req.params.title },
+      { $set: req.body },
       (err) => {
         if (!err) {
-          res.send(`Successfully deleted ${req.params.title} article`)
+          res.send("Success updating article using Patch req");
         } else {
-          res.send(err)
+          res.send(err);
         }
       }
-    )
+    );
   })
+  .delete((req, res) => {
+    Article.deleteOne({ title: req.params.title }, (err) => {
+      if (!err) {
+        res.send(`Successfully deleted ${req.params.title} article`);
+      } else {
+        res.send(err);
+      }
+    });
+  });
 
 app.listen(3000, () => {
   console.log("Server started: port 3000");
