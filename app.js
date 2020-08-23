@@ -63,16 +63,45 @@ app
   });
 
 /// Route for a Specific article
-app.route("/:title").get((req, res) => {
-  const articleTitle = req.params.title;
+app.route("/:title")
+  .get((req, res) => {
+    const articleTitle = req.params.title;
 
-  Article.find({ title: articleTitle }, (err, foundArticle) => {
-    if (err) {
-      res.send(err);
-    }
-    res.send(foundArticle);
-  });
-});
+    Article.find({ title: articleTitle }, (err, foundArticle) => {
+      if (err) {
+        res.send(err);
+      }
+      res.send(foundArticle);
+    });
+  })
+  .put((req, res) => {
+    Article.updateOne(
+      {title: req.params.title},
+      {title: req.body.title, content: req.body.content},
+      {overwrite: true},
+      (err) => {
+        if (!err) {
+          res.send("Success updating article")
+        } else {
+          res.send(err)
+        }
+      }
+    )
+  })
+  .patch((req, res) => {
+
+    Article.updateOne(
+      {title: req.params.title},
+      {$set: req.body},
+      (err) => {
+        if (!err) {
+          res.send("Success updating article using Patch req")
+        } else {
+          res.send(err);
+        }
+      }
+    )
+  })
 
 app.listen(3000, () => {
   console.log("Server started: port 3000");
