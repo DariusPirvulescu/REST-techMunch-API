@@ -89,7 +89,6 @@ app.route("/:title")
     )
   })
   .patch((req, res) => {
-
     Article.updateOne(
       {title: req.params.title},
       {$set: req.body},
@@ -98,6 +97,18 @@ app.route("/:title")
           res.send("Success updating article using Patch req")
         } else {
           res.send(err);
+        }
+      }
+    )
+  })
+  .delete((req, res) => {
+    Article.deleteOne(
+      {title: req.params.title},
+      (err) => {
+        if (!err) {
+          res.send(`Successfully deleted ${req.params.title} article`)
+        } else {
+          res.send(err)
         }
       }
     )
