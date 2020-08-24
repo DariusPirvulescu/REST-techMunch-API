@@ -61,7 +61,7 @@ app
     });
   })
   .put((req, res) => {
-    Article.update(
+    Article.replaceOne(
       { title: req.params.title },
       { title: req.body.title, content: req.body.content },
       { overwrite: true },
