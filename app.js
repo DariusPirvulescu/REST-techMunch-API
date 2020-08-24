@@ -31,7 +31,7 @@ app
   .route("/")
   .get((req, res) => {
     Article.find({}, (err, foundArticles) => {
-      !err ? res.send(foundArticles) : res.send(err)
+      !err ? res.send(foundArticles) : res.send(err);
     });
   })
   .post((req, res) => {
@@ -41,12 +41,14 @@ app
     });
 
     newArticle.save((err) => {
-      !err ? res.send("status 200 000 000, article added, so awesome!") : res.send(err);
+      !err
+        ? res.send("status 200 000 000, article added, so awesome!")
+        : res.send(err);
     });
   })
   .delete((req, res) => {
     Article.deleteMany((err) => {
-      !err ? res.send("You've just deleted all the articles") : res.send(err)
+      !err ? res.send("You've just deleted all the articles") : res.send(err);
     });
   });
 
@@ -57,7 +59,7 @@ app
     const articleTitle = req.params.title;
 
     Article.find({ title: articleTitle }, (err, foundArticle) => {
-      !err ? res.send(foundArticle) : res.send(err)
+      !err ? res.send(foundArticle) : res.send(err);
     });
   })
   .put((req, res) => {
@@ -66,7 +68,7 @@ app
       { title: req.body.title, content: req.body.content },
       { overwrite: true },
       (err) => {
-        !err ? res.send("Success updating article") : res.send("err")
+        !err ? res.send("Success updating article") : res.send("err");
       }
     );
   })
@@ -75,13 +77,17 @@ app
       { title: req.params.title },
       { $set: req.body },
       (err) => {
-        !err ? res.send("Success updating article using Patch req") : res.send(err)
+        !err
+          ? res.send("Success updating article using Patch req")
+          : res.send(err);
       }
     );
   })
   .delete((req, res) => {
     Article.deleteOne({ title: req.params.title }, (err) => {
-      !err ? res.send(`Successfully deleted ${req.params.title} article`) : res.send(err)
+      !err
+        ? res.send(`Successfully deleted ${req.params.title} article`)
+        : res.send(err);
     });
   });
 
