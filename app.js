@@ -31,11 +31,7 @@ app
   .route("/")
   .get((req, res) => {
     Article.find({}, (err, foundArticles) => {
-      if (!err) {
-        res.send(foundArticles);
-      } else {
-        res.send(err);
-      }
+      !err ? res.send(foundArticles) : res.send(err)
     });
   })
   .post((req, res) => {
@@ -45,20 +41,12 @@ app
     });
 
     newArticle.save((err) => {
-      if (!err) {
-        res.send("status 200 000 000, article added, so awesome!");
-      } else {
-        res.send(err);
-      }
+      !err ? res.send("status 200 000 000, article added, so awesome!") : res.send(err);
     });
   })
   .delete((req, res) => {
     Article.deleteMany((err) => {
-      if (!err) {
-        res.send("You've just deleted all the articles");
-      } else {
-        res.send(err);
-      }
+      !err ? res.send("You've just deleted all the articles") : res.send(err)
     });
   });
 
@@ -69,23 +57,16 @@ app
     const articleTitle = req.params.title;
 
     Article.find({ title: articleTitle }, (err, foundArticle) => {
-      if (err) {
-        res.send(err);
-      }
-      res.send(foundArticle);
+      !err ? res.send(foundArticle) : res.send(err)
     });
   })
   .put((req, res) => {
-    Article.updateOne(
+    Article.update(
       { title: req.params.title },
       { title: req.body.title, content: req.body.content },
       { overwrite: true },
       (err) => {
-        if (!err) {
-          res.send("Success updating article");
-        } else {
-          res.send(err);
-        }
+        !err ? res.send("Success updating article") : res.send("err")
       }
     );
   })
@@ -94,21 +75,13 @@ app
       { title: req.params.title },
       { $set: req.body },
       (err) => {
-        if (!err) {
-          res.send("Success updating article using Patch req");
-        } else {
-          res.send(err);
-        }
+        !err ? res.send("Success updating article using Patch req") : res.send(err)
       }
     );
   })
   .delete((req, res) => {
     Article.deleteOne({ title: req.params.title }, (err) => {
-      if (!err) {
-        res.send(`Successfully deleted ${req.params.title} article`);
-      } else {
-        res.send(err);
-      }
+      !err ? res.send(`Successfully deleted ${req.params.title} article`) : res.send(err)
     });
   });
 
