@@ -8,3 +8,4 @@ My attempt at creating an API. It is a simple app (techMunch) that grabs a "vast
     "content" : "The Document Object Model is a cross-platform and language-independent interface that treats an XML or HTML document as a tree structure where in each node is an object representing a part of the document. The DOM represents a document with a logical tree."
 }
 `````````````
+**Note**: Use the *urlencoded* format for the request's body
