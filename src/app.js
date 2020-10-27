@@ -20,8 +20,14 @@ mongoose.connect("mongodb://localhost:27017/techMunchDB", {
 });
 
 const articleSchema = new mongoose.Schema({
-  title: String,
-  content: String,
+  title: {
+    type: String,
+    required: true
+  },
+  content: {
+    type: String,
+    required: true
+  },
 });
 
 const Article = new mongoose.model("Article", articleSchema);
@@ -73,7 +79,16 @@ app
     );
   })
   .patch((req, res) => {
-    console.log(req.body)
+    // console.log(req.body)
+    const updates = Object.keys(req.body)
+    const validFields = ["title", "content"]
+
+    const isValid = updates.every((key) => validFields.includes(key))
+
+    if (!isValid) {
+      return res.status(400).send( { error: "Invalid updates"})
+    }
+
     Article.updateOne(
       { title: req.params.title },
       { $set: req.body },
